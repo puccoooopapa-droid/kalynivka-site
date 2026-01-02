@@ -3,18 +3,20 @@ from flask_cors import CORS
 from mcstatus import JavaServer
 from mcrcon import MCRcon
 import os
-import logging
 
 app = Flask(__name__)
 CORS(app)
 
-logging.basicConfig(level=logging.DEBUG)
-
-# Ваш Minecraft сервер
-MC_HOST = "kalynivka.minecraftjoin.xyz"
-MC_PORT = 25946
+MC_HOST = os.environ.get('MC_HOST', 'waw5.mineconnect.xyz')
+MC_PORT = 25565
 RCON_PORT = 25947
-RCON_PASSWORD = "ваш_пароль_rcon"  # ЗАМЕНИТЕ НА РЕАЛЬНЫЙ!
+RCON_PASSWORD = os.environ.get('RCON_PASSWORD', '97K8gsdOq9')
+
+print(f"=== НАСТРОЙКИ СЕРВЕРА ===")
+print(f"Minecraft: {MC_HOST}:{MC_PORT}")
+print(f"RCON порт: {RCON_PORT}")
+print(f"Пароль: {'*' * len(RCON_PASSWORD)}")
+print(f"=========================")
 
 @app.route("/api/status")
 def status():
@@ -25,9 +27,11 @@ def status():
             "online": status.players.online,
             "max": status.players.max,
             "version": status.version.name,
+            "motd": str(status.description),
             "status": "online"
         })
     except Exception as e:
+        print(f"Ошибка статуса: {e}")
         return jsonify({
             "online": 0,
             "max": 100,
@@ -38,25 +42,31 @@ def status():
 @app.route("/api/command", methods=["POST"])
 def command():
     try:
-        data = request.json
-        cmd = data.get("command", "")
+        cmd = request.json.get("command", "")
+        print(f"Команда: {cmd}")
         
         with MCRcon(MC_HOST, RCON_PASSWORD, port=RCON_PORT) as mcr:
             result = mcr.command(cmd)
         
+        print(f"Результат: {result}")
         return jsonify({
             "success": True,
             "output": result
         })
     except Exception as e:
+        print(f"Ошибка RCON: {e}")
         return jsonify({
             "success": False,
             "output": f"Ошибка: {str(e)}"
         })
 
-@app.route("/")
-def home():
-    return "Minecraft Backend работает!"
+@app.route("/api/test")
+def test():
+    return jsonify({
+        "status": "success",
+        "server": f"{MC_HOST}:{MC_PORT}",
+        "rcon": "available" if RCON_PASSWORD else "disabled"
+    })
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
