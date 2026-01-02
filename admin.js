@@ -1,89 +1,68 @@
-// URL вашего бэкенда на Render
 const API_URL = "https://kalynivka-site.onrender.com";
 
-// Обновление статуса сервера
-async function updateServerStatus() {
+// Обновление онлайн
+async function updateOnline() {
     try {
         const response = await fetch(`${API_URL}/api/status`);
         const data = await response.json();
         
-        // Обновляем онлайн на главной странице
-        const onlineElement = document.querySelector('.online-counter, [class*="online"], [id*="online"]');
+        // Найди элемент с онлайн на сайте
+        const onlineElement = document.querySelector('[class*="online"], [id*="online"]');
         if (onlineElement) {
-            onlineElement.textContent = `Онлайн: ${data.online}/${data.max}`;
+            onlineElement.innerHTML = `Онлайн: <strong>${data.online}/${data.max}</strong>`;
         }
         
-        // Обновляем версию
-        const versionElement = document.querySelector('.version, [class*="version"], [id*="version"]');
-        if (versionElement && data.version) {
-            versionElement.textContent = `Версия: ${data.version}`;
+        // Версия
+        const versionElement = document.querySelector('[class*="version"], [id*="version"]');
+        if (versionElement) {
+            versionElement.textContent = `Версия: ${data.version || "1.20.1"}`;
         }
-        
-        return data;
-    } catch (error) {
-        console.error("Ошибка получения статуса:", error);
-        return { online: 0, max: 100, status: "offline" };
+    } catch (e) {
+        console.log("Ошибка:", e);
     }
 }
 
-// Отправка команды в консоль
-async function sendMinecraftCommand(command) {
+// Отправка команды
+async function sendCommand(cmd) {
     try {
-        console.log("Отправляю команду:", command);
-        
         const response = await fetch(`${API_URL}/api/command`, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            <script src="admin.js"></script>
-            body: JSON.stringify({ command: command })
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({command: cmd})
         });
-        
         const result = await response.json();
-        
-        if (result.success) {
-            console.log("✅ Команда выполнена:", result.output);
-            return { success: true, message: result.output };
-        } else {
-            console.error("❌ Ошибка:", result.output);
-            return { success: false, message: result.output };
-        }
-    } catch (error) {
-        console.error("❌ Ошибка подключения:", error);
-        return { success: false, message: "Ошибка подключения к серверу" };
+        alert(result.success ? "✅ Успех!" : "❌ Ошибка: " + result.output);
+    } catch (e) {
+        alert("❌ Ошибка подключения");
     }
 }
 
-// Вешаем обработчики на кнопки в админке
+// Обновлять онлайн каждые 30 сек
+setInterval(updateOnline, 30000);
+updateOnline();
+
+// Вешаем на кнопки
 document.addEventListener('DOMContentLoaded', function() {
-    // Кнопка отправки команды
-    const sendButton = document.querySelector('button[type="submit"], #send-command, .send-button');
-    const commandInput = document.querySelector('input[type="text"], #command-input, .command-input');
-    
-    if (sendButton && commandInput) {
-        sendButton.addEventListener('click', async function(e) {
+    // Кнопка отправки
+    document.querySelectorAll('button[type="submit"]').forEach(btn => {
+        btn.onclick = function(e) {
             e.preventDefault();
-            const command = commandInput.value.trim();
-            if (command) {
-                const result = await sendMinecraftCommand(command);
-                alert(result.message);
-                commandInput.value = '';
+            const input = document.querySelector('input[type="text"]');
+            if (input && input.value) {
+                sendCommand(input.value);
+                input.value = '';
             }
-        });
-    }
-    
-    // Быстрые команды (кнопки)
-    const quickCommands = document.querySelectorAll('.quick-command, [data-command]');
-    quickCommands.forEach(button => {
-        button.addEventListener('click', async function() {
-            const command = this.getAttribute('data-command') || this.textContent;
-            const result = await sendMinecraftCommand(command);
-            alert(result.message);
-        });
+        };
     });
     
-    // Обновляем статус каждые 30 секунд
-    updateServerStatus();
-    setInterval(updateServerStatus, 30000);
+    // Быстрые команды
+    document.querySelectorAll('.quick-command, button').forEach(btn => {
+        if (btn.textContent.includes('алмаза') || btn.textContent.includes('ТП') || 
+            btn.textContent.includes('уровней') || btn.textContent.includes('Кик')) {
+            btn.onclick = function() {
+                const cmd = this.getAttribute('data-command') || this.textContent;
+                sendCommand(cmd);
+            };
+        }
+    });
 });
