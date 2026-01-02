@@ -7,11 +7,11 @@ import os
 app = Flask(__name__)
 CORS(app)
 
-MC_HOST = "IP_СЕРВЕРА"
+MC_HOST = "waw5.mineconnect.xyz"
 MC_PORT = 25946
 
-RCON_PORT = 25947
-RCON_PASSWORD = "ТВОЙ_RCON_ПАРОЛЬ"
+RCON_PORT = 25899
+RCON_PASSWORD = "97K8gsdOq9"
 
 @app.route("/api/status")
 def status():
