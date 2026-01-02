@@ -3,34 +3,61 @@ from flask_cors import CORS
 from mcstatus import JavaServer
 from mcrcon import MCRcon
 import os
+import logging
 
 app = Flask(__name__)
 CORS(app)
 
-MC_HOST = "waw5.mineconnect.xyz"
-MC_PORT = 25946
+logging.basicConfig(level=logging.DEBUG)
 
-RCON_PORT = 25899
-RCON_PASSWORD = "97K8gsdOq9"
+# Ваш Minecraft сервер
+MC_HOST = "kalynivka.minecraftjoin.xyz"
+MC_PORT = 25946
+RCON_PORT = 25947
+RCON_PASSWORD = "ваш_пароль_rcon"  # ЗАМЕНИТЕ НА РЕАЛЬНЫЙ!
 
 @app.route("/api/status")
 def status():
     try:
         server = JavaServer.lookup(f"{MC_HOST}:{MC_PORT}")
-        s = server.status()
+        status = server.status()
         return jsonify({
-            "online": s.players.online,
-            "max": s.players.max,
+            "online": status.players.online,
+            "max": status.players.max,
+            "version": status.version.name,
             "status": "online"
         })
-    except:
-        return jsonify({"status": "offline"})
+    except Exception as e:
+        return jsonify({
+            "online": 0,
+            "max": 100,
+            "status": "offline",
+            "error": str(e)
+        })
 
 @app.route("/api/command", methods=["POST"])
 def command():
-    cmd = request.json.get("command")
-    with MCRcon(MC_HOST, RCON_PASSWORD, port=RCON_PORT) as mcr:
-        result = mcr.command(cmd)
-    return jsonify({"output": result})
+    try:
+        data = request.json
+        cmd = data.get("command", "")
+        
+        with MCRcon(MC_HOST, RCON_PASSWORD, port=RCON_PORT) as mcr:
+            result = mcr.command(cmd)
+        
+        return jsonify({
+            "success": True,
+            "output": result
+        })
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "output": f"Ошибка: {str(e)}"
+        })
 
-app.run(host="0.0.0.0", port=5000)
+@app.route("/")
+def home():
+    return "Minecraft Backend работает!"
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
