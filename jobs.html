@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Работа на сервере | Kalynivka RP</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="minecraft-header">
+        <div class="minecraft-container">
+            <div class="header-content">
+                <div class="server-title">
+                    <div class="server-icon">💼</div>
+                    <div>
+                        <h1>KALYNIVKA RP</h1>
+                        <p class="server-version">Система работы</p>
+                    </div>
+                </div>
+                
+                <nav class="minecraft-nav">
+                    <a href="index.html" class="nav-btn">
+                        <i class="fas fa-home"></i> Главная
+                    </a>
+                    <a href="build.html" class="nav-btn">
+                        <i class="fas fa-download"></i> Сборка
+                    </a>
+                    <a href="laws.html" class="nav-btn">
+                        <i class="fas fa-gavel"></i> Законы
+                    </a>
+                    <a href="jobs.html" class="nav-btn active">
+                        <i class="fas fa-briefcase"></i> Работа
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="minecraft-container main-content">
+        <section class="fade-in">
+            <div class="section-title">
+                <h2><i class="fas fa-briefcase"></i> Устройтесь на работу в Kalynivka!</h2>
+                <p style="color: #ccc; margin-top: 10px;">Зарабатывайте деньги, получайте опыт и продвигайтесь по карьерной лестнице</p>
+            </div>
+        </section>
+
+        <!-- Работы -->
+        <section class="fade-in" style="margin-top: 40px;">
+            <div class="feature-grid">
+                <!-- Полицейский -->
+                <div class="feature-card">
+                    <div class="card-icon" style="color: #2196F3;">👮‍♂️</div>
+                    <h3>Полицейский</h3>
+                    <p>Поддерживайте порядок в городе, ловите преступников. Работа для ответственных.</p>
+                    <div style="background: rgba(33, 150, 243, 0.1); padding: 10px; border-radius: 8px; margin: 15px 0;">
+                        <strong>Зарплата:</strong> 700$/час<br>
+                        <strong>Требования:</strong> От 18 лет (RP), знание законов
+                    </div>
+                    <div class="job-form">
+                        <input type="text" id="police-nickname" placeholder="Ваш ник в игре" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 6px; background: rgba(255,255,255,0.1); border: 1px solid #444; color: white;">
+                        <button class="minecraft-btn" onclick="applyForJob('police')" style="width: 100%;">
+                            <i class="fas fa-paper-plane"></i> Подать заявку
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Шахтёр -->
+                <div class="feature-card">
+                    <div class="card-icon" style="color: #FF9800;">⛏️</div>
+                    <h3>Шахтёр</h3>
+                    <p>Добывайте ресурсы в шахтах. Стабильный доход + бонусы за редкие ресурсы.</p>
+                    <div style="background: rgba(255, 152, 0, 0.1); padding: 10px; border-radius: 8px; margin: 15px 0;">
+                        <strong>Зарплата:</strong> 500$/час + премии<br>
+                        <strong>Требования:</strong> Своя кирка, выносливость
+                    </div>
+                    <div class="job-form">
+                        <input type="text" id="miner-nickname" placeholder="Ваш ник в игре" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 6px; background: rgba(255,255,255,0.1); border: 1px solid #444; color: white;">
+                        <button class="minecraft-btn" onclick="applyForJob('miner')" style="width: 100%;">
+                            <i class="fas fa-paper-plane"></i> Подать заявку
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Врач -->
+                <div class="feature-card">
+                    <div class="card-icon" style="color: #F44336;">🚑</div>
+                    <h3>Врач</h3>
+                    <p>Спасайте жизни, лечите раненых. Самая благородная профессия в городе.</p>
+                    <div style="background: rgba(244, 67, 54, 0.1); padding: 10px; border-radius: 8px; margin: 15px 0;">
+                        <strong>Зарплата:</strong> 650$/час<br>
+                        <strong>Требования:</strong> Ответственность, готовность к ночным сменам
+                    </div>
+                    <div class="job-form">
+                        <input type="text" id="doctor-nickname" placeholder="Ваш ник в игре" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 6px; background: rgba(255,255,255,0.1); border: 1px solid #444; color: white;">
+                        <button class="minecraft-btn" onclick="applyForJob('doctor')" style="width: 100%;">
+                            <i class="fas fa-paper-plane"></i> Подать заявку
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Строитель -->
+                <div class="feature-card">
+                    <div class="card-icon" style="color: #795548;">🏗️</div>
+                    <h3>Строитель</h3>
+                    <p>Стройте дома, дороги, инфраструктуру города. Работа для творческих людей.</p>
+                    <div style="background: rgba(121, 85, 72, 0.1); padding: 10px; border-radius: 8px; margin: 15px 0;">
+                        <strong>Зарплата:</strong> 600$/час + надбавки<br>
+                        <strong>Требования:</strong> Опыт строительства в Minecraft
+                    </div>
+                    <div class="job-form">
+                        <input type="text" id="builder-nickname" placeholder="Ваш ник в игре" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 6px; background: rgba(255,255,255,0.1); border: 1px solid #444; color: white;">
+                        <button class="minecraft-btn" onclick="applyForJob('builder')" style="width: 100%;">
+                            <i class="fas fa-paper-plane"></i> Подать заявку
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Информация -->
+        <section class="fade-in" style="margin-top: 60px; background: rgba(30,30,30,0.8); padding: 30px; border-radius: 15px;">
+            <h3 style="color: #55FF55; margin-bottom: 20px;">
+                <i class="fas fa-info-circle"></i> Как это работает?
+            </h3>
+            <ol style="margin-left: 20px; line-height: 2;">
+                <li>Вы заполняете заявку на сайте</li>
+                <li>Заявка поступает администратору</li>
+                <li>Администратор свяжется с вами в игре</li>
+                <li>Вам выдадут работу и начальную зарплату</li>
+                <li>Начинаете работать и зарабатывать!</li>
+            </ol>
+            <p style="margin-top: 20px; color: #ccc;">
+                <i class="fas fa-clock"></i> Заявки обрабатываются в течение 24 часов
+            </p>
+        </section>
+    </main>
+
+    <footer class="minecraft-footer">
+        <div class="minecraft-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Kalynivka RP</h3>
+                    <p>Найдите работу своей мечты в нашем городе!</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Ссылки</h3>
+                    <div class="social-links">
+                        <a href="index.html" class="social-link">Главная</a>
+                        <a href="build.html" class="social-link">Сборка</a>
+                        <a href="laws.html" class="social-link">Законы</a>
+                        <a href="jobs.html" class="social-link">Работа</a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Вопросы</h3>
+                    <div class="social-links">
+                        <a href="https://invite.viber.com/?g2=AQA7UK02YGG0C1Xf3q3ZnQOvpCRAkM3lRrZA%2FWTiqwi1UvCsII%2BNoLQ9GgpCDzg0" 
+                           target="_blank" class="social-link">
+                            <i class="fab fa-viber"></i> Спросить в Viber
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #333; color: #666;">
+                <p>© 2023 Kalynivka RP. Работа мечты ждёт вас!</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/api.js"></script>
+    <script>
+        // Подача заявки на работу
+        async function applyForJob(jobType) {
+            let nickname;
+            let jobName;
+            
+            switch(jobType) {
+                case 'police':
+                    nickname = document.getElementById('police-nickname').value;
+                    jobName = 'Полицейский';
+                    break;
+                case 'miner':
+                    nickname = document.getElementById('miner-nickname').value;
+                    jobName = 'Шахтёр';
+                    break;
+                case 'doctor':
+                    nickname = document.getElementById('doctor-nickname').value;
+                    jobName = 'Врач';
+                    break;
+                case 'builder':
+                    nickname = document.getElementById('builder-nickname').value;
+                    jobName = 'Строитель';
+                    break;
+            }
+            
+            if (!nickname || nickname.length < 3) {
+                alert('Введите ваш ник Minecraft (минимум 3 символа)');
+                return;
+            }
+            
+            // Отправляем заявку через API
+            const result = await KalynivkaAPI.applyForJob({
+                nickname: nickname,
+                job: jobType,
+                job_name: jobName,
+                timestamp: new Date().toISOString()
+            });
+            
+            if (result.success) {
+                alert(`Заявка отправлена, ${nickname}!\n\nРабота: ${jobName}\n\nАдминистратор свяжется с вами в игре.`);
+                
+                // Очищаем поле
+                switch(jobType) {
+                    case 'police': document.getElementById('police-nickname').value = ''; break;
+                    case 'miner': document.getElementById('miner-nickname').value = ''; break;
+                    case 'doctor': document.getElementById('doctor-nickname').value = ''; break;
+                    case 'builder': document.getElementById('builder-nickname').value = ''; break;
+                }
+            } else {
+                alert('Ошибка отправки заявки: ' + (result.error || 'Попробуйте позже'));
+            }
+        }
+        
+        // Анимация
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.fade-in').forEach(el => {
+                el.style.opacity = '0';
+                setTimeout(() => {
+                    el.style.transition = 'opacity 0.6s ease-out';
+                    el.style.opacity = '1';
+                }, 100);
+            });
+        });
+    </script>
+</body>
+</html>

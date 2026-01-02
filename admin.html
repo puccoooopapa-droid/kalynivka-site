@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ-панель | Kalynivka RP</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .admin-login-box {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 40px;
+            background: rgba(30, 30, 30, 0.95);
+            border: 2px solid #55FF55;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(85, 255, 85, 0.2);
+        }
+        
+        .admin-login-box input {
+            width: 100%;
+            padding: 15px;
+            margin: 20px 0;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #444;
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+        }
+        
+        .rcon-console {
+            background: #1a1a1a;
+            border: 2px solid #55FF55;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+            font-family: 'Consolas', monospace;
+        }
+        
+        .console-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #333;
+        }
+        
+        .console-output {
+            height: 300px;
+            overflow-y: auto;
+            background: #0a0a0a;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            color: #00FF00;
+            font-size: 0.9rem;
+            white-space: pre-wrap;
+        }
+        
+        .console-input {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .console-input input {
+            flex: 1;
+            padding: 12px;
+            background: #2a2a2a;
+            border: 1px solid #444;
+            border-radius: 6px;
+            color: white;
+            font-family: monospace;
+        }
+        
+        .quick-commands {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .quick-command {
+            background: rgba(85, 255, 85, 0.1);
+            border: 1px solid #55FF55;
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        
+        .quick-command:hover {
+            background: rgba(85, 255, 85, 0.2);
+            transform: translateY(-3px);
+        }
+    </style>
+</head>
+<body>
+    <header class="minecraft-header">
+        <div class="minecraft-container">
+            <div class="header-content">
+                <div class="server-title">
+                    <div class="server-icon">🔧</div>
+                    <div>
+                        <h1>KALYNIVKA RP</h1>
+                        <p class="server-version">Админ-панель</p>
+                    </div>
+                </div>
+                
+                <nav class="minecraft-nav">
+                    <a href="index.html" class="nav-btn">
+                        <i class="fas fa-home"></i> Главная
+                    </a>
+                    <a href="build.html" class="nav-btn">
+                        <i class="fas fa-download"></i> Сборка
+                    </a>
+                    <a href="laws.html" class="nav-btn">
+                        <i class="fas fa-gavel"></i> Законы
+                    </a>
+                    <a href="jobs.html" class="nav-btn">
+                        <i class="fas fa-briefcase"></i> Работа
+                    </a>
+                    <a href="admin.html" class="nav-btn active" style="color: #FF5555;">
+                        <i class="fas fa-cog"></i> Админ
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="minecraft-container main-content">
+        <!-- Форма входа -->
+        <div id="admin-login">
+            <div class="admin-login-box fade-in">
+                <div style="font-size: 3rem; margin-bottom: 20px; color: #55FF55;">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h2>Админ-панель Kalynivka</h2>
+                <p style="color: #888; margin-bottom: 30px;">Введите пароль для доступа к управлению сервером</p>
+                
+                <input type="password" id="admin-password" placeholder="Пароль администратора" 
+                       onkeypress="if(event.key === 'Enter') loginAdmin()">
+                
+                <button class="minecraft-btn" onclick="loginAdmin()" style="width: 100%; margin-top: 10px;">
+                    <i class="fas fa-sign-in-alt"></i> Войти
+                </button>
+            </div>
+        </div>
+
+        <!-- Админ-панель (скрыта до входа) -->
+        <div id="admin-panel" style="display: none;">
+            <div class="header-content" style="margin-bottom: 30px;">
+                <div class="server-title">
+                    <div class="server-icon">🔧</div>
+                    <div>
+                        <h1>Управление сервером</h1>
+                        <p class="server-version">RCON подключение: <span id="rcon-status" style="color: #55FF55;">● Активно</span></p>
+                    </div>
+                </div>
+                
+                <button class="minecraft-btn" onclick="logoutAdmin()" style="background: #FF5555;">
+                    <i class="fas fa-sign-out-alt"></i> Выйти
+                </button>
+            </div>
+
+            <!-- Быстрые команды -->
+            <div style="display: flex; gap: 15px; margin: 30px 0; flex-wrap: wrap;">
+                <button class="minecraft-btn" onclick="sendQuickCommand('say Обновление через админ-панель!')">
+                    <i class="fas fa-bullhorn"></i> Объявление
+                </button>
+                <button class="minecraft-btn" onclick="sendQuickCommand('time set day')">
+                    <i class="fas fa-sun"></i> День
+                </button>
+                <button class="minecraft-btn" onclick="sendQuickCommand('weather clear')">
+                    <i class="fas fa-cloud-sun"></i> Ясно
+                </button>
+                <button class="minecraft-btn" onclick="sendQuickCommand('save-all')">
+                    <i class="fas fa-save"></i> Сохранить
+                </button>
+            </div>
+
+            <!-- RCON консоль -->
+            <div class="rcon-console">
+                <div class="console-header">
+                    <h3><i class="fas fa-terminal"></i> RCON Консоль</h3>
+                    <button class="minecraft-btn" onclick="clearConsole()">
+                        <i class="fas fa-trash"></i> Очистить
+                    </button>
+                </div>
+                
+                <div class="console-output" id="console-output">
+Kalynivka RCON Terminal v1.0
+============================
+Введите команду ниже.
+----------------------------
+</div>
+                
+                <div class="console-input">
+                    <input type="text" id="rcon-command" 
+                           placeholder="Введите команду Minecraft (например: say Привет!)" 
+                           onkeypress="if(event.key === 'Enter') sendRconCommand()">
+                    <button class="minecraft-btn" onclick="sendRconCommand()">
+                        <i class="fas fa-paper-plane"></i> Отправить
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Быстрые команды -->
+            <h3><i class="fas fa-bolt"></i> Быстрые команды</h3>
+            <div class="quick-commands">
+                <div class="quick-command" onclick="sendQuickCommand('gamemode creative @p')">
+                    <i class="fas fa-magic"></i>
+                    <h4>Креатив себе</h4>
+                    <p>gamemode creative @p</p>
+                </div>
+                
+                <div class="quick-command" onclick="sendQuickCommand('gamemode survival @a')">
+                    <i class="fas fa-shield-alt"></i>
+                    <h4>Выживание всем</h4>
+                    <p>gamemode survival @a</p>
+                </div>
+                
+                <div class="quick-command" onclick="sendQuickCommand('give @p diamond 64')">
+                    <i class="fas fa-gem"></i>
+                    <h4>64 алмаза</h4>
+                    <p>give @p diamond 64</p>
+                </div>
+                
+                <div class="quick-command" onclick="sendQuickCommand('tp @p 0 64 0')">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <h4>ТП на спавн</h4>
+                    <p>tp @p 0 64 0</p>
+                </div>
+                
+                <div class="quick-command" onclick="sendQuickCommand('xp add @p 100 levels')">
+                    <i class="fas fa-star"></i>
+                    <h4>100 уровней</h4>
+                    <p>xp add @p 100 levels</p>
+                </div>
+                
+                <div class="quick-command" onclick="sendQuickCommand('whitelist add ')">
+                    <i class="fas fa-user-plus"></i>
+                    <h4>Вайтлист</h4>
+                    <p>whitelist add [ник]</p>
+                </div>
+                
+                <div class="quick-command" onclick="sendQuickCommand('list')">
+                    <i class="fas fa-users"></i>
+                    <h4>Список игроков</h4>
+                    <p>list</p>
+                </div>
+                
+                <div class="quick-command" onclick="sendQuickCommand('kick ')">
+                    <i class="fas fa-door-open"></i>
+                    <h4>Кик игрока</h4>
+                    <p>kick [ник]</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="minecraft-footer">
+        <div class="minecraft-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Kalynivka RP</h3>
+                    <p>Система управления сервером через RCON.</p>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #333; color: #666;">
+                <p>© 2023 Kalynivka RP. Админ-панель v1.0</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/api.js"></script>
+    <script>
+        let adminToken = '';
+        const ADMIN_PASSWORD = 'MaksKAKA'; // Пароль для входа в админку
+        
+        // Вход в админку
+        function loginAdmin() {
+            const password = document.getElementById('admin-password').value;
+            
+            if (password === ADMIN_PASSWORD) {
+                adminToken = password;
+                document.getElementById('admin-login').style.display = 'none';
+                document.getElementById('admin-panel').style.display = 'block';
+                addToConsole('✓ Успешный вход в админ-панель');
+                addToConsole('Готов к отправке команд...');
+            } else {
+                alert('Неверный пароль!');
+                document.getElementById('admin-password').value = '';
+            }
+        }
+        
+        // Выход из админки
+        function logoutAdmin() {
+            if (confirm('Выйти из админ-панели?')) {
+                adminToken = '';
+                document.getElementById('admin-login').style.display = 'block';
+                document.getElementById('admin-panel').style.display = 'none';
+                document.getElementById('admin-password').value = '';
+            }
+        }
+        
+        // Отправка команды через RCON
+        async function sendRconCommand() {
+            const commandInput = document.getElementById('rcon-command');
+            const command = commandInput.value.trim();
+            
+            if (!command) return;
+            
+            addToConsole(`> ${command}`);
+            
+            try {
+                const result = await KalynivkaAPI.sendCommand(command, adminToken);
+                
+                if (result.success) {
+                    addToConsole(result.response);
+                } else {
+                    addToConsole(`Ошибка: ${result.error}`);
+                }
+            } catch (error) {
+                addToConsole(`Ошибка соединения: ${error.message}`);
+            }
+            
+            commandInput.value = '';
+            commandInput.focus();
+        }
+        
+        // Быстрая команда
+        function sendQuickCommand(command) {
+            document.getElementById('rcon-command').value = command;
+            sendRconCommand();
+        }
+        
+        // Добавление текста в консоль
+        function addToConsole(text) {
+            const consoleElement = document.getElementById('console-output');
+            consoleElement.textContent += '\n' + text;
+            consoleElement.scrollTop = consoleElement.scrollHeight;
+        }
+        
+        // Очистка консоли
+        function clearConsole() {
+            document.getElementById('console-output').textContent = 
+                'Kalynivka RCON Terminal v1.0\n' +
+                '============================\n' +
+                'Консоль очищена.\n' +
+                '----------------------------';
+        }
+        
+        // Автофокус на поле пароля при загрузке
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('admin-password')?.focus();
+            
+            // Анимация
+            document.querySelectorAll('.fade-in').forEach(el => {
+                el.style.opacity = '0';
+                setTimeout(() => {
+                    el.style.transition = 'opacity 0.6s ease-out';
+                    el.style.opacity = '1';
+                }, 100);
+            });
+        });
+    </script>
+</body>
+</html>

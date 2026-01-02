@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalynivka RP | Minecraft 1.20.1 Сервер</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Шапка -->
+    <header class="minecraft-header">
+        <div class="minecraft-container">
+            <div class="header-content">
+                <div class="server-title">
+                    <div class="server-icon">⚔️</div>
+                    <div>
+                        <h1>KALYNIVKA RP</h1>
+                        <p class="server-version">Minecraft 1.20.1 • Ролевой сервер</p>
+                    </div>
+                </div>
+                
+                <nav class="minecraft-nav">
+                    <a href="index.html" class="nav-btn active">
+                        <i class="fas fa-home"></i> Главная
+                    </a>
+                    <a href="build.html" class="nav-btn">
+                        <i class="fas fa-download"></i> Сборка
+                    </a>
+                    <a href="laws.html" class="nav-btn">
+                        <i class="fas fa-gavel"></i> Законы
+                    </a>
+                    <a href="jobs.html" class="nav-btn">
+                        <i class="fas fa-briefcase"></i> Работа
+                    </a>
+                    <a href="admin.html" class="nav-btn" style="color: #FF5555;">
+                        <i class="fas fa-cog"></i> Админ
+                    </a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Статус сервера -->
+    <div class="minecraft-container">
+        <div class="server-status-box fade-in">
+            <div class="status-indicator">
+                <div class="status-dot"></div>
+                <h2 id="server-status-text">Сервер онлайн и работает!</h2>
+            </div>
+            
+            <div class="ip-display">
+                <p><i class="fas fa-server"></i> Подключиться к серверу:</p>
+                <div style="display: flex; align-items: center; gap: 15px; margin-top: 10px;">
+                    <code class="ip-text">kalynivka.minecraftjoin.xyz</code>
+                    <button class="copy-btn" onclick="copyIP()">
+                        <i class="far fa-copy"></i> Копировать IP
+                    </button>
+                </div>
+            </div>
+            
+            <div style="margin-top: 20px; display: flex; gap: 20px; flex-wrap: wrap;">
+                <div style="background: rgba(0,0,0,0.3); padding: 10px 20px; border-radius: 8px;">
+                    <i class="fas fa-users"></i> Онлайн: <strong id="online-count">?</strong>/<span id="max-players">100</span>
+                </div>
+                <div style="background: rgba(0,0,0,0.3); padding: 10px 20px; border-radius: 8px;">
+                    <i class="fas fa-code-branch"></i> Версия: 1.20.1
+                </div>
+                <div style="background: rgba(0,0,0,0.3); padding: 10px 20px; border-radius: 8px;">
+                    <i class="fas fa-shield-alt"></i> Режим: RP / Survival
+                </div>
+            </div>
+            
+            <!-- Список игроков -->
+            <div id="players-container" style="margin-top: 20px; display: none;">
+                <p><i class="fas fa-user"></i> Игроки онлайн:</p>
+                <div id="players-list" class="players-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Основной контент -->
+    <main class="minecraft-container main-content">
+        <!-- Приветствие -->
+        <section class="fade-in">
+            <div class="section-title">
+                <h2>Добро пожаловать в Kalynivka!</h2>
+                <p style="color: #ccc; margin-top: 10px;">Сервер с глубокой ролевой игрой, экономикой и уникальной атмосферой</p>
+            </div>
+            
+            <div style="text-align: center; margin-bottom: 40px;">
+                <a href="build.html" class="minecraft-btn" style="margin-right: 15px;">
+                    <i class="fas fa-download"></i> Скачать сборку
+                </a>
+                <a href="https://invite.viber.com/?g2=AQA7UK02YGG0C1Xf3q3ZnQOvpCRAkM3lRrZA%2FWTiqwi1UvCsII%2BNoLQ9GgpCDzg0" 
+                   target="_blank" class="minecraft-btn btn-secondary">
+                    <i class="fab fa-viber"></i> Наш Viber
+                </a>
+            </div>
+        </section>
+
+        <!-- Особенности -->
+        <section style="margin: 60px 0;">
+            <div class="section-title">
+                <h2>Особенности сервера</h2>
+            </div>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="card-icon"><i class="fas fa-car"></i></div>
+                    <h3>Реалистичные машины</h3>
+                    <p>Моды на транспорт: Immersive Vehicles, IAV, VEB с физикой и тюнингом</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="card-icon"><i class="fas fa-coins"></i></div>
+                    <h3>Экономика</h3>
+                    <p>Работа, бизнес, торговля, налоги. Настоящая экономическая система</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="card-icon"><i class="fas fa-shield-alt"></i></div>
+                    <h3>Ролевая игра</h3>
+                    <p>Строгий RP режим, профессии, фракции, законы и судебная система</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="card-icon"><i class="fas fa-hammer"></i></div>
+                    <h3>Строительство</h3>
+                    <p>Уникальные моды для строительства, декора и создания своего дома</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Как подключиться -->
+        <section class="fade-in" style="margin-top: 60px;">
+            <div class="section-title">
+                <h2>Как начать играть?</h2>
+            </div>
+            
+            <div style="max-width: 800px; margin: 0 auto; background: rgba(30,30,30,0.8); padding: 30px; border-radius: 15px;">
+                <div style="display: flex; align-items: flex-start; gap: 20px; margin-bottom: 25px;">
+                    <div style="background: #55FF55; color: black; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">1</div>
+                    <div>
+                        <h3>Скачай сборку</h3>
+                        <p>Загрузи нашу сборку с <a href="build.html" style="color: #55FF55;">этой страницы</a> (388 МБ)</p>
+                    </div>
+                </div>
+                
+                <div style="display: flex; align-items: flex-start; gap: 20px; margin-bottom: 25px;">
+                    <div style="background: #55FF55; color: black; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">2</div>
+                    <div>
+                        <h3>Добавь сервер</h3>
+                        <p>В Minecraft добавь сервер с IP: <code style="background: rgba(0,0,0,0.3); padding: 5px 10px; border-radius: 5px;">kalynivka.minecraftjoin.xyz</code></p>
+                    </div>
+                </div>
+                
+                <div style="display: flex; align-items: flex-start; gap: 20px;">
+                    <div style="background: #55FF55; color: black; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold;">3</div>
+                    <div>
+                        <h3>Играй!</h3>
+                        <p>Зайди на сервер, пройди обучение и выбери профессию. Удачи!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Подвал -->
+    <footer class="minecraft-footer">
+        <div class="minecraft-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Kalynivka RP</h3>
+                    <p>Сервер Minecraft 1.20.1 с ролевой игрой, экономикой и уникальными модами.</p>
+                    <p style="margin-top: 15px; color: #888;">
+                        <i class="fas fa-server"></i> IP: kalynivka.minecraftjoin.xyz
+                    </p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Быстрые ссылки</h3>
+                    <div class="social-links">
+                        <a href="index.html" class="social-link">
+                            <i class="fas fa-home"></i> Главная
+                        </a>
+                        <a href="build.html" class="social-link">
+                            <i class="fas fa-download"></i> Скачать сборку
+                        </a>
+                        <a href="laws.html" class="social-link">
+                            <i class="fas fa-gavel"></i> Законы сервера
+                        </a>
+                        <a href="jobs.html" class="social-link">
+                            <i class="fas fa-briefcase"></i> Работа
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Сообщество</h3>
+                    <div class="social-links">
+                        <a href="https://invite.viber.com/?g2=AQA7UK02YGG0C1Xf3q3ZnQOvpCRAkM3lRrZA%2FWTiqwi1UvCsII%2BNoLQ9GgpCDzg0" 
+                           target="_blank" class="social-link">
+                            <i class="fab fa-viber"></i> Группа Viber
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-discord"></i> Discord (скоро)
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #333; color: #666;">
+                <p>© 2023 Kalynivka RP. Не аффилирован с Mojang AB. Все права на игру принадлежат их владельцам.</p>
+                <p style="margin-top: 5px; font-size: 0.9rem;">Сервер находится в активной разработке. Присоединяйся!</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Копирование IP
+        function copyIP() {
+            navigator.clipboard.writeText('kalynivka.minecraftjoin.xyz').then(() => {
+                const btn = event.target;
+                btn.innerHTML = '<i class="fas fa-check"></i> Скопировано!';
+                btn.style.background = '#2E7D32';
+                setTimeout(() => {
+                    btn.innerHTML = '<i class="far fa-copy"></i> Копировать IP';
+                    btn.style.background = '';
+                }, 2000);
+            });
+        }
+        
+        // Обновление статуса сервера
+        async function updateServerStatus() {
+            try {
+                const status = await KalynivkaAPI.getServerStatus();
+                
+                document.getElementById('online-count').textContent = status.players || 0;
+                document.getElementById('max-players').textContent = status.max_players || 100;
+                
+                const statusText = document.getElementById('server-status-text');
+                if (status.online) {
+                    statusText.innerHTML = 'Сервер онлайн и работает!';
+                    statusText.style.color = '#55FF55';
+                    
+                    // Показываем контейнер с игроками
+                    document.getElementById('players-container').style.display = 'block';
+                    
+                    // Обновляем список игроков
+                    updatePlayersList();
+                } else {
+                    statusText.innerHTML = 'Сервер офлайн';
+                    statusText.style.color = '#FF5555';
+                    document.getElementById('players-container').style.display = 'none';
+                }
+            } catch (error) {
+                console.log('Ошибка обновления статуса:', error);
+            }
+        }
+        
+        // Обновление списка игроков
+        async function updatePlayersList() {
+            try {
+                const data = await KalynivkaAPI.getOnlinePlayers();
+                const container = document.getElementById('players-list');
+                
+                if (data.success && data.players && data.players.length > 0) {
+                    container.innerHTML = data.players
+                        .map(player => `<div class="player-item">${player}</div>`)
+                        .join('');
+                } else {
+                    container.innerHTML = '<div class="player-item">Игроки загружаются...</div>';
+                }
+            } catch (error) {
+                console.log('Ошибка загрузки игроков:', error);
+            }
+        }
+        
+        // Инициализация при загрузке
+        document.addEventListener('DOMContentLoaded', () => {
+            updateServerStatus();
+            setInterval(updateServerStatus, 30000); // Обновлять каждые 30 секунд
+            
+            // Анимация
+            document.querySelectorAll('.fade-in').forEach(el => {
+                el.style.opacity = '0';
+                setTimeout(() => {
+                    el.style.transition = 'opacity 0.6s ease-out';
+                    el.style.opacity = '1';
+                }, 100);
+            });
+        });
+    </script>
+</body>
+</html>
