@@ -36,6 +36,7 @@ async function sendMinecraftCommand(command) {
             headers: {
                 'Content-Type': 'application/json',
             },
+            <script src="admin.js"></script>
             body: JSON.stringify({ command: command })
         });
         
